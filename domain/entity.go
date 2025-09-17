@@ -61,7 +61,7 @@ func (e Entity) UpdatedAt() time.Time {
 }
 
 func (e Entity) Repr() string {
-	return fmt.Sprintf("id: %s\nclass: %s\nversion: %d\ncreated: %s\nupdated:",
+	return fmt.Sprintf("id: %s\nclass: %s\nversion: %d\ncreated: %s\nupdated: %s",
 		e.IdHexString(), e.Class(), e.Version(),
 		e.CreatedAt().String(), e.UpdatedAt().String())
 }
