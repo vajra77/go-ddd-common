@@ -2,6 +2,7 @@ package domain
 
 import (
 	"encoding/hex"
+	"fmt"
 	"time"
 
 	"github.com/google/uuid"
@@ -23,6 +24,7 @@ type IEntity interface {
 	Version() int
 	CreatedAt() time.Time
 	UpdatedAt() time.Time
+	Repr() string
 }
 
 func NewEntity(class string, version int) Entity {
@@ -56,4 +58,10 @@ func (e Entity) CreatedAt() time.Time {
 
 func (e Entity) UpdatedAt() time.Time {
 	return e.updatedAt
+}
+
+func (e Entity) Repr() string {
+	return fmt.Sprintf("id: %s\nclass: %s\nversion: %d\ncreated: %s\nupdated:",
+		e.IdHexString(), e.Class(), e.Version(),
+		e.CreatedAt().String(), e.UpdatedAt().String())
 }
