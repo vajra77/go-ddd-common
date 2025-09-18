@@ -5,6 +5,7 @@ import "github.com/google/uuid"
 type Repository struct{}
 
 type IRepository interface {
+	// tentative
 	List() []Entity
 	Retrieve(uuid.UUID) Entity
 	Add(Entity)
