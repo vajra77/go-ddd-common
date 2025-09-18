@@ -9,7 +9,7 @@ import (
 )
 
 type Entity struct {
-	id        uuid.UUID
+	id        string
 	class     string
 	version   int
 	createdAt time.Time
@@ -17,7 +17,7 @@ type Entity struct {
 }
 
 type IEntity interface {
-	Id() uuid.UUID
+	Id() string
 	IdString() string
 	IdHexString() string
 	Class() string
@@ -28,25 +28,19 @@ type IEntity interface {
 }
 
 func NewEntity(class string, version int) Entity {
-
-	return Entity{uuid.New(), class, version, time.Now(), time.Now()}
+	newId, err := uuid.New().MarshalBinary()
+	if err != nil {
+		panic(err)
+	}
+	return Entity{hex.EncodeToString(newId), class, version, time.Now(), time.Now()}
 }
 
-func ResumeEntity(id uuid.UUID, class string, version int, createdAt time.Time, updatedAt time.Time) Entity {
+func ResumeEntity(id string, class string, version int, createdAt time.Time, updatedAt time.Time) Entity {
 	return Entity{id, class, version, createdAt, updatedAt}
 }
 
-func (e Entity) Id() uuid.UUID {
+func (e Entity) Id() string {
 	return e.id
-}
-
-func (e Entity) IdString() string {
-	return e.id.String()
-}
-
-func (e Entity) IdHexString() string {
-	data, _ := e.id.MarshalBinary()
-	return hex.EncodeToString(data)
 }
 
 func (e Entity) Class() string {
@@ -67,6 +61,6 @@ func (e Entity) UpdatedAt() time.Time {
 
 func (e Entity) Repr() string {
 	return fmt.Sprintf("id: %s\nclass: %s\nversion: %d\ncreated: %s\nupdated: %s",
-		e.IdHexString(), e.Class(), e.Version(),
+		e.Id(), e.Class(), e.Version(),
 		e.CreatedAt().String(), e.UpdatedAt().String())
 }
