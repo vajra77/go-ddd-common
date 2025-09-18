@@ -28,7 +28,12 @@ type IEntity interface {
 }
 
 func NewEntity(class string, version int) Entity {
+
 	return Entity{uuid.New(), class, version, time.Now(), time.Now()}
+}
+
+func ResumeEntity(id uuid.UUID, class string, version int, createdAt time.Time, updatedAt time.Time) Entity {
+	return Entity{id, class, version, createdAt, updatedAt}
 }
 
 func (e Entity) Id() uuid.UUID {
