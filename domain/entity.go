@@ -27,16 +27,16 @@ type IEntity interface {
 	Repr() string
 }
 
-func NewEntity(class string, version int) *Entity {
+func MakeEntity(class string, version int) Entity {
 	newId, err := uuid.New().MarshalBinary()
 	if err != nil {
 		panic(err)
 	}
-	return &Entity{hex.EncodeToString(newId), class, version, time.Now(), time.Now()}
+	return Entity{hex.EncodeToString(newId), class, version, time.Now(), time.Now()}
 }
 
-func ResumeEntity(id string, class string, version int, createdAt time.Time, updatedAt time.Time) *Entity {
-	return &Entity{id, class, version, createdAt, updatedAt}
+func ResumeEntity(id string, class string, version int, createdAt time.Time, updatedAt time.Time) Entity {
+	return Entity{id, class, version, createdAt, updatedAt}
 }
 
 func (e Entity) Id() string {
